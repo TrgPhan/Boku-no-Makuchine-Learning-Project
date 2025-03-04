@@ -24,7 +24,6 @@ const WebcamFeed = () => {
                     videoRef.current.play();
                 }
             } catch (err) {
-                setCameraError('Không thể truy cập webcam. Vui lòng cho phép quyền truy cập camera!');
                 console.error('Lỗi camera:', err);
             }
         };
@@ -47,7 +46,7 @@ const WebcamFeed = () => {
             ) : (
                 <video
                     ref={videoRef}
-                    className="rounded-lg shadow-lg bg-gray-100 w-full h-full object-cover"
+                    className="rounded-lg shadow-lg bg-black w-full h-full object-cover"
                     autoPlay
                     playsInline
                     muted
