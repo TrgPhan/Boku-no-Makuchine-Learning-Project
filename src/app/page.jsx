@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Button from '../components/Button';
 
 export default function Page() {
     return (
@@ -12,6 +13,15 @@ export default function Page() {
                     height={400}
                 />
             </div>
+            <div className="flex justify-center mt-8">
+                <p className="text-lg text-center">
+                    Welcome to our new Lolillolili-daisuki app!
+                </p>
+            </div>
+            <div className="flex justify-center mt-8">
+                <Button />
+            </div>
+            <br></br>
         </main>
     )
 }

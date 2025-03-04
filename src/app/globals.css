@@ -2,7 +2,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+@tailwind apply;
+@tailwind animations;
 
 @layer base {
   body {
