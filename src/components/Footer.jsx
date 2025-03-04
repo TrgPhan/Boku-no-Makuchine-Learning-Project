@@ -10,13 +10,6 @@ const Footer = () => {
                     <h1 className="text-4xl font-semibold">MyWebsite</h1>
                 </Link>
 
-                {/* Navigation Links */}
-                <nav className="flex space-x-6 mt-4 md:mt-0">
-                    <Link href="/about" className="hover:text-gray-400">About</Link>
-                    <Link href="/services" className="hover:text-gray-400">Services</Link>
-                    <Link href="/contact" className="hover:text-gray-400">Contact</Link>
-                </nav>
-
                 {/* Copyright */}
                 <p className="text-sm mt-4 md:mt-0">&copy; {new Date().getFullYear()} MyWebsite. All rights reserved.</p>
             </div>

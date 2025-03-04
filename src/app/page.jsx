@@ -7,12 +7,12 @@ export default function Page() {
         <main className="container mx-auto px-4 sm:px-6 lg:px-8">
             {/* Hero Section */}
             <section className="text-center my-8 md:my-12">
-                <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold mb-6">Hello, World!</h1>
+                <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold mb-6">Hello, UETERS!</h1>
                 <div className="relative aspect-video w-full max-w-2xl mx-auto">
                     <Image
                         src="/next.svg"
-                        alt="Next.js Logo"
-                        fill
+                        alt="NextJS Logo"
+                        fill={true}
                         className="object-contain"
                     />
                 </div>
@@ -32,10 +32,6 @@ export default function Page() {
                     <p className="text-base md:text-lg leading-relaxed max-w-prose">
                         Hello everyone, this is a Machine Learning project that I have been working on for a while.
                         I am very excited to share it with you all :))
-                        <br /><br />
-                        Here is the link to the GitHub repository:
-                        <br /><br />
-                        I hope you enjoy it!
                     </p>
                 </div>
                 <div className="relative w-full md:w-1/2 aspect-square">

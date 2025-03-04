@@ -10,6 +10,14 @@ const Header = () => {
                         K68<span className="text-accent">A-AI1 desu.</span>
                     </h1>
                 </Link>
+
+                {/* Navigation Links */}
+                <nav className="flex space-x-6 mt-4 md:mt-0">
+                    <Link href="/about" className="hover:text-gray-400">About</Link>
+                    <Link href="/services" className="hover:text-gray-400">Services</Link>
+                    <Link href="/contact" className="hover:text-gray-400">Contact</Link>
+                </nav>
+
             </div>
         </header>
     );
