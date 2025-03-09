@@ -13,8 +13,7 @@ const Header = () => {
 
                 {/* Navigation Links */}
                 <nav className="flex space-x-6 mt-4 md:mt-0">
-                    <Link href="/about" className="hover:text-gray-400">About</Link>
-                    <Link href="/services" className="hover:text-gray-400">Services</Link>
+                    <Link href="/about" className="hover:text-gray-400">About Us</Link>
                     <Link href="/contact" className="hover:text-gray-400">Contact</Link>
                 </nav>
 
