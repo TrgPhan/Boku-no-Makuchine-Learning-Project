@@ -1,8 +1,6 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
-import { Hands, HAND_CONNECTIONS } from '@mediapipe/hands';
-import { Camera } from "@mediapipe/camera_utils";
-import { drawConnectors, drawLandmarks } from '@mediapipe/drawing_utils';
+import { loadHandsModule } from '../../lib/useHands';
 
 const WebcamFeed = () => {
     const videoRef = useRef(null);
@@ -11,65 +9,73 @@ const WebcamFeed = () => {
     const handsRef = useRef(null);
 
     useEffect(() => {
-        const hands = new Hands({
-            locateFile: (file) => {
-                return `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`;
-            }
-        });
+        let handsInstance, cameraInstance;
 
-        hands.setOptions({
-            maxNumHands: 2,
-            modelComplexity: 1,
-            minDetectionConfidence: 0.5,
-            minTrackingConfidence: 0.5
-        });
+        const setupHands = async () => {
+            const modules = await loadHandsModule();
+            if (!modules) return;
 
-        hands.onResults((results) => {
-            const canvas = canvasRef.current;
-            const video = videoRef.current;
+            const { Hands, Camera, Draw } = modules;
+            const hands = new Hands({
+                locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`
+            });
 
-            if (canvas && video) {
-                const ctx = canvas.getContext('2d');
-                canvas.width = video.videoWidth;
-                canvas.height = video.videoHeight;
+            hands.setOptions({
+                maxNumHands: 2,
+                modelComplexity: 1,
+                minDetectionConfidence: 0.5,
+                minTrackingConfidence: 0.5
+            });
 
-                ctx.save();
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                ctx.drawImage(results.image, 0, 0, canvas.width, canvas.height);
+            hands.onResults((results) => {
+                const canvas = canvasRef.current;
+                const video = videoRef.current;
+                if (canvas && video) {
+                    const ctx = canvas.getContext('2d');
+                    canvas.width = video.videoWidth;
+                    canvas.height = video.videoHeight;
 
-                if (results.multiHandLandmarks) {
-                    for (const landmarks of results.multiHandLandmarks) {
-                        drawConnectors(ctx, landmarks, HAND_CONNECTIONS,
-                            { color: '#00FF00', lineWidth: 2 });
-                        drawLandmarks(ctx, landmarks,
-                            { color: '#FF0000', lineWidth: 1, radius: 2 });
+                    ctx.save();
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.drawImage(results.image, 0, 0, canvas.width, canvas.height);
+
+                    if (results.multiHandLandmarks) {
+                        for (const landmarks of results.multiHandLandmarks) {
+                            Draw.drawConnectors(ctx, landmarks, Hands.HAND_CONNECTIONS,
+                                { color: '#00FF00', lineWidth: 2 });
+                            Draw.drawLandmarks(ctx, landmarks,
+                                { color: '#FF0000', lineWidth: 1, radius: 2 });
+                        }
                     }
+                    ctx.restore();
                 }
-                ctx.restore();
-            }
-        });
+            });
 
-        handsRef.current = hands;
+            handsRef.current = hands;
+            handsInstance = hands;
 
-        const camera = new Camera(videoRef.current, {
-            onFrame: async () => {
-                if (videoRef.current) {
-                    await hands.send({ image: videoRef.current });
-                }
-            },
-            width: 1280,
-            height: 720
-        });
+            const camera = new Camera(videoRef.current, {
+                onFrame: async () => {
+                    if (videoRef.current) {
+                        await hands.send({ image: videoRef.current });
+                    }
+                },
+                width: 1280,
+                height: 720
+            });
 
-        camera.start()
-            .catch(err => {
+            cameraInstance = camera;
+            camera.start().catch(err => {
                 setCameraError('Không thể truy cập webcam. Vui lòng cho phép quyền truy cập camera!');
                 console.error('Lỗi camera:', err);
             });
+        };
+
+        setupHands();
 
         return () => {
-            if (camera) camera.stop();
-            if (hands) hands.close();
+            if (cameraInstance) cameraInstance.stop();
+            if (handsInstance) handsInstance.close();
         };
     }, []);
 
