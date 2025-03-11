@@ -13,6 +13,7 @@ const Header = () => {
 
                 {/* Navigation Links */}
                 <nav className="flex space-x-6 mt-4 md:mt-0">
+                    <Link href="/handsign-app" className="text-green-400 hover:text-gray-400">Discover Our App</Link>
                     <Link href="/about" className="hover:text-gray-400">About Us</Link>
                     <Link href="/contact" className="hover:text-gray-400">Contact</Link>
                 </nav>
